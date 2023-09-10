@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกมคณิตศาสตร์</title>
+    <style>body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: rgb(195,34,117);
+background: radial-gradient(circle, rgba(195,34,117,1) 0%, rgba(253,176,45,1) 100%);;
+    }
+    
+    .container {
+        max-width: 400px;
+        padding: 100px;
+        background-color:lavender;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+        align-items: center;
+    }
+    
+    h1 {
+        font-size: 24px;
+        margin: 0;
+    }
+    
+    button {
+        margin-top: 20px;
+        padding: 5px 15px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    #question{
+        font-size: 25px;
+    }
+    #answer {
+    width: 100%; /* ขยายช่องใส่คำตอบให้เต็มความกว้างของ .container */
+    padding: 3px; /* เพิ่มขอบรอบในช่องใส่คำตอบ */
+    font-size: 18px; /* ปรับขนาดตัวอักษรในช่องใส่คำตอบ */
+}
+
+    
+    #result {
+        font-weight: bold;
+        margin-top: 50px;
+        
+    }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>เกมคณิตศาสตร์</h1>
+        <p id="question"></p>
+        <div class="options">
+            <button id="add">บวก (+)</button>
+            <button id="subtract">ลบ (-)</button>
+            <button id="multiply">คูณ (*)</button>
+            <button id="divide">หาร (/)</button>
+        </div>
+        <input type="text" id="answer" placeholder="คำตอบ">
+        <button id="check">ตรวจสอบ</button>
+       
+        <p id="result"></p>
+    </div>
+    <script>
+    function RanNum() {
+        return Math.floor(Math.random() * 100) + 1;
+    }
+    
+
+    function RanMark() {
+        const Mark = ['+', '-', '*', '/'];
+        const random = Math.floor(Math.random() * Mark.length);
+        return Mark[random];
+    }
+
+    function Question() {
+        const num1 = RanNum();
+        const num2 = RanNum();
+        const Mark = RanMark();
+        return `${num1} ${Mark} ${num2}`;
+    }
+    function Display() {
+        const num1 = RanNum();
+        const num2 = RanNum();
+        const Mark = Operator;
+    
+        let question = `${num1} ${Mark} ${num2}`;
+        let Answer = Answer(question);
+    
+
+        if (Mark === '/') {
+            Answer = Answer.toFixed(2);
+        }   
+    
+        questionElement.textContent = question;
+        answerElement.value = '';
+    }
+
+    function Answer(question) {
+        return eval(question);
+    }
+    
+    const questionElement = document.getElementById('question');
+    const answerElement = document.getElementById('answer');
+    const checkButton = document.getElementById('check');
+    const resultElement = document.getElementById('result');
+    
+    const addOption = document.getElementById('add');
+    const subtractOption = document.getElementById('subtract');
+    const multiplyOption = document.getElementById('multiply');
+    const divideOption = document.getElementById('divide');
+    
+    let Operator = '+';
+    
+    addOption.addEventListener('click', function () {
+        Operator = '+';
+        Display();
+    });
+    
+    subtractOption.addEventListener('click', function () {
+        Operator = '-';
+        Display();
+    });
+    
+    multiplyOption.addEventListener('click', function () {
+        Operator = '*';
+        Display();
+    });
+    
+    divideOption.addEventListener('click', function () {
+        Operator = '/';
+        Display();
+    });
+    
+    function Display() {
+        const num1 = RanNum();
+        const num2 = RanNum();
+        const Mark = Operator;
+        const question = `${num1} ${Mark} ${num2}`;
+        questionElement.textContent = question;
+        answerElement.value = '';
+    }
+    
+    checkButton.addEventListener('click', function () {
+        const question = questionElement.textContent;
+        const userAnswer = parseFloat(answerElement.value);
+        const correctAnswer = Answer(question);
+    
+        if (userAnswer === correctAnswer) {
+            resultElement.textContent = 'คำตอบถูกต้อง!';
+            resultElement.style.color = 'green';
+        } else {
+            resultElement.textContent = 'คำตอบผิด ลองอีกครั้ง';
+            resultElement.style.color = 'red';
+        }
+    
+        Display();
+    });
+    
+    Display();
+    </script>
+</body>
+</html>
